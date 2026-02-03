@@ -14,14 +14,14 @@ Various ways of locally escalating privileges
 Services issues using PowerUp
 - Get services with unquote paths and a space in their name
 	- `Get-ServiceUnquoted -Verbose`
-![[assets/Pasted image 20260131023520.png|Pasted image 20260131023520.png]]
+![Pasted image 20260131023520.png](assets/Pasted%20image%2020260131023520.png)
 - for Abyss Web Server, if we drop Abyss.exe in `C:\WebServer` and restart the service, the computer will run Abyss.exe since that will be chosen before Abyss Web Server (because of the spaces)
 - Get services where the current user can write to its binary path or change arguments
 	- `Get-ModifiableServiceFile -Verbose
 	- `Get-ModifiableService -Verbose`
 		- Get services whose configuration current user can modify
 		- `sc.exe sdshow <binary>` to see file permissions
-![[assets/Pasted image 20260131023854.png|Pasted image 20260131023854.png]]
+![Pasted image 20260131023854.png](assets/Pasted%20image%2020260131023854.png)
 - WD (everyone) has the same permissions as BA (Admins)
 - not opsec-safe
 

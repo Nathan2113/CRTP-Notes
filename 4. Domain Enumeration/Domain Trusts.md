@@ -31,8 +31,8 @@ Map external trusts in moneycorp.local.forest
 `Get-ForestDomain -Forest <DOMAIN> | %{Get-DomainTrust -Domain $_.Name}`
 
 Identify external trusts of dollarcorp domain. Can you enumerate trusts for a trusting forest?
-![[assets/Pasted image 20260131020851.png|Pasted image 20260131020851.png]]
+![Pasted image 20260131020851.png](assets/Pasted%20image%2020260131020851.png)
 - you cannot enumerate trusts for a trusting forest (i.e. getting eu.eurocorp.local from dollarcorp) -- not transitive
 - can get almost anything else though -> build bloodhound database and extract credentials to then access eurocorp
 `Get-DomainUser -Domain eurocorp.local`
-![[assets/Pasted image 20260131021129.png|Pasted image 20260131021129.png]]
+![Pasted image 20260131021129.png](assets/Pasted%20image%2020260131021129.png)
