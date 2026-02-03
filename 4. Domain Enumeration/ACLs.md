@@ -1,4 +1,4 @@
-![[Pasted image 20260111032741.png]]
+![[assets/Pasted image 20260111032741.png|Pasted image 20260111032741.png]]
 - check marks are covered in the course
 
 

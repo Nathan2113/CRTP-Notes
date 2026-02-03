@@ -20,8 +20,8 @@ List OUs in a domain
 Get GPO applied on an OU. Read GPOname from gplink attribute from Get-NetOU
 `Get-DomainGPO -Identity "<group_policy>"`
 - group policy can be found as the long string between curly braces when looking at OUs
-![[Pasted image 20260111040942.png]]
-![[Pasted image 20260111041013.png]]
+![[assets/Pasted image 20260111040942.png|Pasted image 20260111040942.png]]
+![[assets/Pasted image 20260111041013.png|Pasted image 20260111041013.png]]
 
 
 # Learning Objective
@@ -39,4 +39,4 @@ enumerate GPO applied on the DevOps OU
 `Get-DomainGPO -Identity "{0BF8D01C-1F62-958C-57140B67D147}"`
 
 enumerate ACLs for the Applocker and DevOps GPOs
-![[Pasted image 20260111041614.png]]
+![[assets/Pasted image 20260111041614.png|Pasted image 20260111041614.png]]

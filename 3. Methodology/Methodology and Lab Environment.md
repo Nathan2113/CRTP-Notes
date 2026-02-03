@@ -1,11 +1,11 @@
 Assume Breach
-![[Pasted image 20260111020341.png]]
+![[assets/Pasted image 20260111020341.png|Pasted image 20260111020341.png]]
 - proactive security methodology
 
 
 # Attack Methodology for Course
 
-![[Pasted image 20260111020554.png]]
+![[assets/Pasted image 20260111020554.png|Pasted image 20260111020554.png]]
 - not doing recon for the course
 
 
@@ -15,5 +15,5 @@ Assume Breach
 - Server 2016 Forest Functional Level
 - Multiple forests and multiple domains
 - Minimal firewall usage to focus on concepts
-![[Pasted image 20260111020948.png]]
+![[assets/Pasted image 20260111020948.png|Pasted image 20260111020948.png]]
 
