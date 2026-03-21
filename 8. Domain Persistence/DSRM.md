@@ -45,7 +45,7 @@ dump LSA
 - if doing over winrs, remember to add `$null |` before the command
 
 compare hash of DSRM Administrator with DA hash
-![[assets/Pasted image 20260204060636.png]]
+![Pasted image 20260204060636](assets/Pasted%20image%2020260204060636.png)
 - they are different, which is expected
 
 
@@ -60,7 +60,7 @@ start InviShell
 
 enter remote PS session with DSRM credentials
 `Enter-PSSession -ComputerName <IP> -Authentication NegotiateWithImplicitCredential`
-![[assets/Pasted image 20260204061139.png]]
+![Pasted image 20260204061139](assets/Pasted%20image%2020260204061139.png)
 
 MDI only cares if you run a DCSync attack from outside the DC, so you can run it after doing this attack and not be detected
 - this goes for a lot of other attacks too

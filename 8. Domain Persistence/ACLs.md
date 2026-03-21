@@ -17,7 +17,7 @@ Well known abuse of some of the protected groups, all the following can log in l
 	- copy ntds.dit backup, load device drivers
 
 can modify the ACL of AdminSDHolder so that your user has full access over it and protected groups
-![[assets/Pasted image 20260204073349.png]]
+![Pasted image 20260204073349](assets/Pasted%20image%2020260204073349.png)
 - this prevents the propagation from getting rid of your access
 
 

@@ -4,7 +4,7 @@ Remote ACLs can be modified to allow for users without administrative access to 
 - remote registry
 
 can simply modify the SID in the ACL
-![[assets/Pasted image 20260205041548.png]]
+![Pasted image 20260205041548](assets/Pasted%20image%2020260205041548.png)
 
 # WMI
 

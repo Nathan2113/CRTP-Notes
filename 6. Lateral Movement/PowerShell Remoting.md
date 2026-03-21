@@ -11,7 +11,7 @@
 
 - use $env.computername and $env.username instead of whoami to avoid detection
 	- `-Invoke-Command -ScriptBlock{$env:computername;$env:username} -ComputerName <computer>`
-![[assets/Pasted image 20260203033453.png]]
+![Pasted image 20260203033453](assets/Pasted%20image%2020260203033453.png)
 
 - get servers from a list of server names
 	- `-Invoke-Command -ScriptBlock{$env:computername;$env:username} -ComputerName cat C:\AD\Tools\servers.txt`

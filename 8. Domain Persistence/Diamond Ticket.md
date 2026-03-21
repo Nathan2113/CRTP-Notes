@@ -23,8 +23,8 @@ can also use /tgtdeleg option in place of creds if we have access to a domain us
 ### Use Domain Admin privileges obtained earlier to execute the Diamond Ticket attack
 
 trying to sign in with student1 before
-![[assets/Pasted image 20260204054244.png]]
+![Pasted image 20260204054244](assets/Pasted%20image%2020260204054244.png)
 
 trying to sign in with student1 after
-![[assets/Pasted image 20260204054349.png]]
-![[assets/Pasted image 20260204054421.png]]
+![Pasted image 20260204054349](assets/Pasted%20image%2020260204054349.png)
+![Pasted image 20260204054421](assets/Pasted%20image%2020260204054421.png)

