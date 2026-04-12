@@ -9,7 +9,7 @@ Find all machines on the current domain where the current user has local admin a
 
 
 Find computers where a domain admin (or specific user) has sessions
-` Find-DomainUserLocation -Verbose`
+`Find-DomainUserLocation -Verbose`
 `Find-DomainUserLocation -UserGroupIdentity "RDPUsers"`
 
 - queries the DC using `Get-DomainGroupMember`, gets a list of computers (`Get-DomainComputer`), and list sessions and logged on users (`Get-NetSession`/`Get-NetLoggedon`) from each machine
