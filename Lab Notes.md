@@ -1,5 +1,3 @@
-student744:7HenLRN3db5uPdST
-
 # SID of the member of the Enterprise Admins group
 
 the Enterprise Admin is only in the root domain, so checking the domain that student is in won't work
